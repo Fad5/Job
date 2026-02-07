@@ -1,0 +1,117 @@
+<!-- templates/job_edit.html -->
+{% extends 'base.html' %}
+
+{% block title %}Редактировать: {{ job.title }} - DayWorker{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-4">
+            <div>
+                <h2 class="card-title">Редактировать задание</h2>
+                <p class="text-muted mb-0">ID: #{{ job.id }} | Создано: {{ job.created_at|date:"d.m.Y" }}</p>
+            </div>
+            <h3 class="text-primary">{{ job.price }} руб.</h3>
+        </div>
+        
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-subtitle mb-3">Основная информация</h5>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Название задания *</label>
+                        {{ form.title }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Описание *</label>
+                        {{ form.description }}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Бюджет (руб.) *</label>
+                                {{ form.price }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Категория</label>
+                                {{ form.category }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Изображение</label>
+                        {{ form.image }}
+                        {% if job.image %}
+                        <div class="mt-2">
+                            <small class="text-muted">Текущее:</small>
+                            <img src="{{ job.image.url }}" alt="{{ job.title }}" 
+                                 class="img-thumbnail mt-1" style="max-height: 100px;">
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Статус задания</h6>
+                            <div class="mb-3">
+                                {{ form.status }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Действия</h6>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success">
+                                    💾 Сохранить изменения
+                                </button>
+                                <a href="{% url 'job_detail' job.id %}" class="btn btn-outline-secondary">
+                                    ← Отмена
+                                </a>
+                                {% if user == job.employer %}
+                                <a href="{% url 'job_delete' job.id %}" class="btn btn-outline-danger">
+                                    🗑️ Удалить задание
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    padding: 10px 15px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #4a6cf7;
+    box-shadow: 0 0 0 0.2rem rgba(74, 108, 247, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+</style>
+{% endblock %}

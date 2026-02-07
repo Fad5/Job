@@ -55,9 +55,7 @@
                             </a>
                             
                             {% if user == job.employer %}
-                            <button class="btn btn-outline-warning">
-                                Редактировать
-                            </button>
+                            <a href="{% url 'job_edit' job.id %}" class="edit-btn">✏️ Редактировать</a>
                             {% endif %}
                         </div>
                     </div>
