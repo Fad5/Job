@@ -36,11 +36,20 @@
                         <h6 class="card-subtitle mb-2 text-muted">Работодатель</h6>
                         <p class="card-text">{{ job.employer.username }}</p>
                         
+                    
                         {% if user.is_authenticated and user != job.employer and job.status == 'open' %}
-                        <button class="btn btn-success w-100 mt-2">
-                            Откликнуться на задание
-                        </button>
+                            {% if not user_has_responded %}  <!-- Нужно передать из view -->
+                                <a href="{% url 'create_response' job.id %}" class="btn btn-success w-100 mt-2">
+                                    📝 Откликнуться на задание
+                                </a>
+                            {% else %}
+                                <div class="alert alert-info mt-2">
+                                    ✅ Вы уже откликнулись на это задание
+                                </div>
+                            {% endif %}
                         {% endif %}
+
+
                     </div>
                 </div>
             </div>

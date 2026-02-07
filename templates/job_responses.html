@@ -1,0 +1,42 @@
+<!-- templates/job_responses.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h2>Отклики на "{{ job.title }}"</h2>
+        
+        {% for response in responses %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h5>{{ response.freelancer.username }}</h5>
+                        <p class="mb-2">{{ response.message }}</p>
+                        <small class="text-muted">{{ response.created_at|date:"d.m.Y H:i" }}</small>
+                    </div>
+                    <div class="text-end">
+                        {% if response.proposed_price %}
+                        <h5 class="text-primary">{{ response.proposed_price }} руб.</h5>
+                        {% endif %}
+                        
+                        <span class="badge {% if response.status == 'pending' %}bg-warning{% elif response.status == 'accepted' %}bg-success{% else %}bg-danger{% endif %}">
+                            {{ response.get_status_display }}
+                        </span>
+                        
+                        {% if response.status == 'pending' %}
+                        <div class="mt-2">
+                            <a href="#" class="btn btn-sm btn-success">Принять</a>
+                            <a href="#" class="btn btn-sm btn-danger">Отклонить</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">Пока нет откликов</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
