@@ -1,0 +1,87 @@
+<!-- templates/profile.html -->
+{% extends 'base.html' %}
+
+{% block title %}Профиль - {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 100px; height: 100px;">
+                    <span class="text-white fs-1">{{ user.username|first|upper }}</span>
+                </div>
+                <h4 class="mb-1">{{ user.username }}</h4>
+                <p class="text-muted mb-3">{{ user.email }}</p>
+                
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-primary">Редактировать профиль</button>
+                    <a href="{% url 'my_jobs' %}" class="btn btn-outline-secondary">Мои задания</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Информация о профиле</h5>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Имя пользователя</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{ user.username }}</p>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Email</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{ user.email }}</p>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Дата регистрации</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{ user.date_joined|date:"d.m.Y" }}</p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Последний вход</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{ user.last_login|date:"d.m.Y H:i"|default:"Еще не входил" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Быстрые действия</h5>
+                <div class="d-grid gap-2">
+                    <a href="{% url 'job_create' %}" class="btn btn-primary">
+                        Создать новое задание
+                    </a>
+                    <a href="{% url 'my_jobs' %}" class="btn btn-outline-primary">
+                        Посмотреть мои задания
+                    </a>
+                    <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                        Найти работу
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+<!-- templates/job_detail.html -->
+{% extends 'base.html' %}
+
+{% block title %}{{ job.title }} - DayWorker{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+                <h2 class="card-title">{{ job.title }}</h2>
+                <div class="d-flex gap-2 align-items-center mb-3">
+                    <span class="badge {% if job.status == 'open' %}bg-success{% elif job.status == 'in_progress' %}bg-primary{% else %}bg-secondary{% endif %}">
+                        {{ job.get_status_display }}
+                    </span>
+                    <span class="text-muted">•</span>
+                    <span class="text-muted">
+                        {{ job.created_at|date:"d.m.Y в H:i" }}
+                    </span>
+                </div>
+            </div>
+            <h3 class="text-primary">{{ job.price }} руб.</h3>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-subtitle mb-2">Описание задания</h5>
+                <p class="card-text">{{ job.description|linebreaks }}</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Работодатель</h6>
+                        <p class="card-text">{{ job.employer.username }}</p>
+                        
+                        {% if user.is_authenticated and user != job.employer and job.status == 'open' %}
+                        <button class="btn btn-success w-100 mt-2">
+                            Откликнуться на задание
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Действия</h6>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                                ← Назад к заданиям
+                            </a>
+                            
+                            {% if user == job.employer %}
+                            <button class="btn btn-outline-warning">
+                                Редактировать
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

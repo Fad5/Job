@@ -1,0 +1,21 @@
+<!-- templates/registration/logout.html -->
+{% extends 'base.html' %}
+
+{% block title %}Выход - DayWorker{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <div class="display-1 text-muted mb-4">👋</div>
+    <h1 class="mb-3">Вы вышли из системы</h1>
+    <p class="lead mb-4">Вы успешно вышли из своего аккаунта.</p>
+    
+    <div class="d-grid gap-2 d-md-block">
+        <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4 me-2">
+            Войти снова
+        </a>
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg px-4">
+            На главную
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!-- templates/my_jobs.html -->
+{% extends 'base.html' %}
+
+{% block title %}Мои задания - DayWorker{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Мои задания</h1>
+
+{% if jobs %}
+<div class="list-group">
+    {% for job in jobs %}
+    <a href="{% url 'job_detail' job.id %}" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ job.title }}</h5>
+            <span class="badge {% if job.status == 'open' %}bg-success{% elif job.status == 'in_progress' %}bg-primary{% else %}bg-secondary{% endif %}">
+                {{ job.get_status_display }}
+            </span>
+        </div>
+        <p class="mb-1">{{ job.description|truncatechars:150 }}</p>
+        <div class="d-flex justify-content-between">
+            <small>Создано: {{ job.created_at|date:"d.m.Y H:i" }}</small>
+            <strong class="text-primary">{{ job.price }} руб.</strong>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5">
+    <h3 class="text-muted">Вы еще не создавали задания</h3>
+    <p class="lead">Создайте свое первое задание и найдите исполнителя!</p>
+    <a href="{% url 'job_create' %}" class="btn btn-primary btn-lg">
+        Создать первое задание
+    </a>
+</div>
+{% endif %}
+{% endblock %}

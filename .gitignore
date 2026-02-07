@@ -1,1 +1,7 @@
 /venv
+/jobs/__pycache__
+/jobs/migrations
+/core/__pycache__
+/core/migrations
+/config/__pycache__
+db.sqlite3
